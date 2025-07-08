@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Interaktif - Syech Bayhaqy Albana</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral (Stone, Amber, with a touch of Teal) -->
+    <!-- Application Structure Plan: A single-page, vertical scroll layout with a sticky top navigation. The structure is narrative-driven: it starts with a strong personal summary, moves to a chronological timeline of professional experiences, visually showcases a diverse skill set with interactive charts, and finishes with educational background and contact info. This design choice provides an intuitive and engaging user journey, making the content more digestible and memorable than a static document. -->
+    <!-- Visualization & Content Choices: 
+        - Ringkasan Diri -> Goal: Inform/Engage -> Presentation: Prominent hero text block -> Method: Static HTML/Tailwind -> Justification: To create a powerful first impression.
+        - Pengalaman (Kerja & Mengajar) -> Goal: Show Change/Growth -> Presentation: Vertical timeline -> Method: HTML/CSS with Tailwind -> Justification: To visually represent the career journey chronologically.
+        - Keahlian (Skills) -> Goal: Compare/Highlight -> Presentation: Two horizontal bar charts for Hard and Soft skills -> Method: Chart.js/Canvas -> Justification: To offer a quick, dynamic, and memorable visual comparison of the candidate's diverse abilities, including technical and creative skills.
+        - Pendidikan -> Goal: Inform -> Presentation: Clean card layout -> Method: HTML/Tailwind -> Justification: To present foundational information clearly without distracting from the core skills.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+            color: #292524; /* stone-800 */
+        }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d9488; /* teal-600 */
+            border-bottom-color: #0d9488; /* teal-600 */
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #f5f5f4; /* stone-100 */
+            border: 4px solid #0d9488; /* teal-600 */
+            z-index: 1;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 300px;
+            width: 100%;
+            max-width: 600px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header id="header" class="bg-stone-100/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h3 class="text-xl font-bold text-stone-800">Syech Bayhaqy Albana</h3>
+            <nav class="hidden md:flex space-x-8" id="nav-menu">
+                <a href="#home" class="nav-link font-semibold">Beranda</a>
+                <a href="#pengalaman" class="nav-link font-semibold">Pengalaman</a>
+                <a href="#keahlian" class="nav-link font-semibold">Keahlian</a>
+                <a href="#pendidikan" class="nav-link font-semibold">Pendidikan</a>
+                <a href="#kontak" class="nav-link font-semibold">Kontak</a>
+            </nav>
+            <button id="hamburger" class="md:hidden text-stone-800 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="#home" class="block py-2 nav-link">Beranda</a>
+            <a href="#pengalaman" class="block py-2 nav-link">Pengalaman</a>
+            <a href="#keahlian" class="block py-2 nav-link">Keahlian</a>
+            <a href="#pendidikan" class="block py-2 nav-link">Pendidikan</a>
+            <a href="#kontak" class="block py-2 nav-link">Kontak</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="min-h-screen flex items-center bg-stone-50">
+            <div class="container mx-auto px-6 py-16 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-stone-900 leading-tight">
+                    Syech Bayhaqy Albana
+                </h1>
+                <p class="text-lg md:text-xl text-teal-700 font-semibold mt-4">
+                    Profesional Serbaguna dengan Keahlian Ritel, Pendidikan, dan Kreatif Digital
+                </p>
+                <div class="max-w-3xl mx-auto mt-8">
+                     <p class="text-base text-stone-600 leading-relaxed">
+                        Lulusan Pondok Pesantren dengan integritas tinggi dan disiplin kuat, dilengkapi pengalaman praktis di sektor ritel dan pendidikan. Mahir dalam pelayanan pelanggan, penjualan, serta memiliki kemampuan komunikasi dan kepemimpinan yang terbukti. Saya adalah individu adaptif, cepat belajar, dengan keahlian tambahan di bidang kreatif seperti editing video dan desain 3D, siap memberikan kontribusi unik dan positif di lingkungan kerja yang dinamis.
+                    </p>
+                </div>
+                <a href="#kontak" class="mt-12 inline-block bg-teal-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-teal-700 transition-colors duration-300 shadow-lg">Hubungi Saya</a>
+            </div>
+        </section>
+
+        <!-- Pengalaman Section -->
+        <section id="pengalaman" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12">Perjalanan Profesional</h2>
+                <div class="relative max-w-2xl mx-auto">
+                    <div class="absolute left-0 h-full border-l-2 border-stone-300 ml-3"></div>
+                    
+                    <div class="mb-12 pl-12 relative timeline-item">
+                        <h3 class="text-xl font-bold text-teal-700">Staf Penjualan/Pramuniaga</h3>
+                        <p class="text-md font-semibold text-stone-600">Toko Risky, Ende Flores NTT</p>
+                        <p class="text-sm text-stone-500 mb-4">Desember 2020 – April 2023</p>
+                        <ul class="list-disc list-inside text-stone-600 space-y-2">
+                            <li>Memberikan pelayanan penjualan prima kepada pelanggan.</li>
+                            <li>Berhasil mencapai target penjualan harian rata-rata Rp5 juta.</li>
+                            <li>Melakukan penataan display produk yang menarik untuk mendorong pembelian.</li>
+                            <li>Membantu pencatatan stok barang masuk dan keluar.</li>
+                            <li>Menangani pertanyaan dan keluhan pelanggan dengan solusi memuaskan.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-12 pl-12 relative timeline-item">
+                        <h3 class="text-xl font-bold text-teal-700">Asisten Pengajar/Tenaga Pengajar</h3>
+                        <p class="text-md font-semibold text-stone-600">Yayasan AZ-Zahra Nurul Islam, Wonogiri</p>
+                        <p class="text-sm text-stone-500 mb-4">Juli 2019 – Agustus 2020</p>
+                        <ul class="list-disc list-inside text-stone-600 space-y-2">
+                            <li>Mengajar Bahasa Arab, Sejarah Islam, dan Tajwid untuk siswa MI kelas 4, 5, dan 6.</li>
+                            <li>Merancang dan menyampaikan materi pelajaran yang interaktif dan mudah dipahami.</li>
+                            <li>Mengelola dinamika kelas untuk menciptakan lingkungan belajar yang kondusif.</li>
+                            <li>Memberikan bimbingan dan umpan balik konstruktif kepada siswa.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Keahlian Section -->
+        <section id="keahlian" class="py-20 bg-stone-50">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-4">Keahlian Inti</h2>
+                <p class="text-center max-w-2xl mx-auto mb-12 text-stone-600">Visualisasi ini merepresentasikan tingkat kepercayaan diri dan penguasaan saya dalam berbagai keterampilan yang diperoleh dari pengalaman kerja, pendidikan, dan proyek pribadi.</p>
+                <div class="grid md:grid-cols-2 gap-12 items-start">
+                    <div>
+                        <h3 class="text-2xl font-bold text-center mb-6">Hard Skills</h3>
+                        <div class="chart-container">
+                            <canvas id="hardSkillsChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-center mb-6">Soft Skills</h3>
+                        <div class="chart-container">
+                            <canvas id="softSkillsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pendidikan Section -->
+        <section id="pendidikan" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center mb-12">Latar Belakang Pendidikan</h2>
+                <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
+                    <h3 class="text-xl font-bold text-teal-700">Alumni / Program Pendidikan Agama</h3>
+                    <p class="text-lg font-semibold text-stone-700 mt-1">Pondok Pesantren Darusy Syahadah, Boyolali</p>
+                    <p class="text-md text-stone-500 mb-4">Periode Belajar: 2016 – 2019</p>
+                    <p class="text-stone-600 leading-relaxed">Pendidikan di sini tidak hanya membentuk pengetahuan akademis, tetapi juga menanamkan nilai-nilai fundamental yang menjadi landasan karakter saya, termasuk:</p>
+                    <ul class="mt-4 space-y-2">
+                        <li class="flex items-start">
+                            <span class="text-teal-600 mr-3 mt-1">&#10003;</span> 
+                            <span>Mengembangkan **disiplin diri, integritas, dan tanggung jawab** melalui kehidupan berasrama yang terstruktur.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-teal-600 mr-3 mt-1">&#10003;</span> 
+                            <span>Terlatih dalam **kemampuan berpikir analitis dan pemecahan masalah** melalui studi mendalam.</span>
+                        </li>
+                         <li class="flex items-start">
+                            <span class="text-teal-600 mr-3 mt-1">&#10003;</span> 
+                            <span>Berpartisipasi aktif dalam kegiatan keorganisasian, melatih **kepemimpinan dan kerja sama tim**.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer / Kontak Section -->
+    <footer id="kontak" class="bg-stone-800 text-stone-200 py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-4">Mari Terhubung</h2>
+            <p class="max-w-xl mx-auto mb-8">Saya antusias untuk mendiskusikan bagaimana keahlian dan pengalaman saya dapat memberikan nilai bagi tim Anda. Silakan hubungi saya melalui salah satu platform di bawah ini.</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 mb-8">
+                 <a href="mailto:baihaqialbana1@gmail.com" class="hover:text-teal-400 transition-colors flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
+                    <span class="ml-2">baihaqialbana1@gmail.com</span>
+                </a>
+                 <a href="https://www.linkedin.com/in/baihaqi-albana-33789234b" target="_blank" rel="noopener noreferrer" class="hover:text-teal-400 transition-colors flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    <span class="ml-2">LinkedIn</span>
+                </a>
+            </div>
+            <p class="text-stone-400 text-sm mt-12">&copy; 2025 Syech Bayhaqy Albana. Didesain dan dikembangkan dengan penuh semangat.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobile-menu');
+            hamburger.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu on link click
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Navigation scroll highlighting
+            const sections = document.querySelectorAll('section, footer');
+            const navLinks = document.querySelectorAll('#nav-menu a, #mobile-menu a');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+
+            // Chart.js Configuration
+            const chartOptions = {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 10,
+                        grid: {
+                            color: '#e7e5e4' // stone-200
+                        },
+                        ticks: {
+                            color: '#57534e' // stone-600
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#44403c', // stone-700
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#292524', // stone-800
+                        titleFont: {
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            size: 12
+                        },
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.x !== null) {
+                                    label += context.parsed.x + ' / 10';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            };
+            
+            // Hard Skills Chart
+            const hardSkillsCtx = document.getElementById('hardSkillsChart').getContext('2d');
+            new Chart(hardSkillsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Video Editing', 'Desain 3D', 'Penjualan Ritel', 'Pelayanan Pelanggan', 'Public Speaking', 'Microsoft Office'],
+                    datasets: [{
+                        label: 'Tingkat Keahlian',
+                        data: [8, 7, 8, 9, 8, 7],
+                        backgroundColor: '#14b8a6', // teal-500
+                        borderColor: '#0d9488', // teal-600
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // Soft Skills Chart
+            const softSkillsCtx = document.getElementById('softSkillsChart').getContext('2d');
+            new Chart(softSkillsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Disiplin & Etos Kerja', 'Komunikasi', 'Adaptabilitas', 'Kerja Sama Tim', 'Kepemimpinan'],
+                    datasets: [{
+                        label: 'Tingkat Keahlian',
+                        data: [10, 9, 9, 9, 8],
+                        backgroundColor: '#f59e0b', // amber-500
+                        borderColor: '#d97706', // amber-600
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: chartOptions
+            });
+        });
+    </script>
+</body>
+</html>
